@@ -5,8 +5,9 @@ SENTEDBOOKS=$(BOOKS:%=results/%.sent.txt)
 ALLNOMD=data/all.no_md.txt
 ALLFREQ=results/all.freq.txt
 ALLSENT=results/all.sent.txt
+PARSEDBOOKS=$(BOOKS:%=results/%.parsed.txt)
 
-all: $(FREQLISTS) $(SENTEDBOOKS) $(ALLNOMD) $(ALLFREQ) $(ALLSENT)
+all: $(FREQLISTS) $(SENTEDBOOKS) $(ALLNOMD) $(ALLFREQ) $(ALLSENT) $(PARSEDBOOKS)
 
 clean:
 	rm -f results/* data/*no_md.txt
@@ -28,3 +29,6 @@ results/all.freq.txt: data/all.no_md.txt
 
 results/all.sent.txt: data/all.no_md.txt
 	src/sent_per_line.sh $< $@
+
+results/%.parsed.txt: results/%.sent.txt
+	python3 src/parse.py $< $@
